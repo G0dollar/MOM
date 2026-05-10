@@ -219,6 +219,46 @@
             display: none;
         }
 
+        /* Mom photo styling */
+        .mom-photo {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            border: 5px solid rgba(255, 105, 180, 0.3);
+            box-shadow: 
+                0 8px 24px rgba(255, 105, 180, 0.25),
+                inset 0 0 0 2px rgba(255, 182, 193, 0.4);
+            animation: photo-glow 3s ease-in-out infinite, photo-float 3s ease-in-out infinite;
+            filter: brightness(1.05);
+        }
+
+        @keyframes photo-glow {
+            0%, 100% {
+                box-shadow: 
+                    0 8px 24px rgba(255, 105, 180, 0.25),
+                    inset 0 0 0 2px rgba(255, 182, 193, 0.4),
+                    0 0 20px rgba(255, 105, 180, 0.2);
+            }
+            50% {
+                box-shadow: 
+                    0 12px 32px rgba(255, 105, 180, 0.35),
+                    inset 0 0 0 2px rgba(255, 182, 193, 0.6),
+                    0 0 30px rgba(255, 105, 180, 0.4);
+            }
+        }
+
+        @keyframes photo-float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
         .card-front h1 {
             font-family: 'Playfair Display', serif;
             background: linear-gradient(135deg, #ff1493 0%, #ff69b4 50%, #ff1493 100%);
@@ -228,7 +268,7 @@
             -webkit-text-fill-color: transparent;
             font-size: 3.2rem;
             font-weight: 700;
-            margin-top: 30px;
+            margin-top: 20px;
             margin-bottom: 16px;
             letter-spacing: -0.5px;
             animation: shimmer 3s ease-in-out infinite, float-text 3s ease-in-out infinite;
@@ -259,6 +299,7 @@
             margin: 0 auto 20px;
             position: relative;
             animation: gentle-pulse 2.5s ease-in-out infinite, rotate-element 6s linear infinite;
+            display: none;
         }
 
         @keyframes gentle-pulse {
@@ -631,9 +672,16 @@
                 justify-content: center;
             }
 
+            .mom-photo {
+                width: 110px;
+                height: 110px;
+                margin: 0 auto 18px;
+                border: 4px solid rgba(255, 105, 180, 0.3);
+            }
+
             .card-front h1 {
                 font-size: 2.6rem;
-                margin-top: 20px;
+                margin-top: 12px;
                 margin-bottom: 12px;
             }
 
@@ -657,12 +705,6 @@
                 padding: 14px 36px;
                 font-size: 0.95rem;
                 margin-top: 8px;
-            }
-
-            .decorative-element {
-                width: 70px;
-                height: 70px;
-                margin-bottom: 16px;
             }
 
             .floating-heart {
@@ -721,9 +763,15 @@
                 min-height: 500px;
             }
 
+            .mom-photo {
+                width: 100px;
+                height: 100px;
+                margin: 0 auto 14px;
+            }
+
             .card-front h1 {
                 font-size: 2.1rem;
-                margin-top: 16px;
+                margin-top: 10px;
                 margin-bottom: 8px;
             }
 
@@ -746,12 +794,6 @@
             .open-btn {
                 padding: 12px 32px;
                 font-size: 0.9rem;
-            }
-
-            .decorative-element {
-                width: 60px;
-                height: 60px;
-                margin-bottom: 12px;
             }
 
             .signature {
@@ -777,15 +819,16 @@
                 min-height: auto;
             }
 
+            .mom-photo {
+                width: 90px;
+                height: 90px;
+                margin: 0 auto 10px;
+            }
+
             .card-front h1 {
                 font-size: 2rem;
                 margin-bottom: 8px;
-            }
-
-            .decorative-element {
-                width: 50px;
-                height: 50px;
-                margin-bottom: 8px;
+                margin-top: 8px;
             }
 
             .card-front p {
@@ -820,6 +863,10 @@
                 color: #888;
                 border-top-color: rgba(255, 105, 180, 0.1);
             }
+
+            .mom-photo {
+                filter: brightness(0.95);
+            }
         }
 
         /* Reduce motion for accessibility */
@@ -845,6 +892,7 @@
             <div class="ribbon"></div>
             
             <div class="card-front" id="cardFront">
+                <img src="mom.jpg" alt="Mom" class="mom-photo">
                 <div class="decorative-element"></div>
                 <h1>Happy Mother's Day</h1>
                 <p>Click to reveal your heartfelt message</p>
