@@ -2,33 +2,83 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Happy Mother's Day</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Poppins', system-ui, -apple-system, sans-serif;
             background: linear-gradient(135deg, #ffeef8 0%, #ffe4f1 25%, #fff0f8 50%, #ffe8f3 75%, #fff5fb 100%);
             background-attachment: fixed;
+            background-size: 400% 400%;
+            animation: gradient-shift 8s ease infinite;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0;
-            padding: 0;
             position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Aurora glow background */
+        .aurora {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse at 20% 30%, rgba(255, 182, 193, 0.15) 0%, transparent 40%),
+                        radial-gradient(ellipse at 80% 70%, rgba(255, 105, 180, 0.15) 0%, transparent 40%),
+                        radial-gradient(ellipse at 50% 50%, rgba(255, 192, 203, 0.1) 0%, transparent 50%);
+            animation: aurora-pulse 6s ease-in-out infinite;
+        }
+
+        @keyframes aurora-pulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
         }
 
         .card-container {
             perspective: 1500px;
             position: relative;
             z-index: 10;
-            margin: 40px 20px;
+            margin: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .particles {
@@ -47,31 +97,32 @@
             border-radius: 50%;
             pointer-events: none;
             animation: float-particle linear infinite;
+            filter: blur(1px);
         }
 
         @keyframes float-particle {
             0% {
-                transform: translateY(100vh) translateX(0) rotate(0deg);
+                transform: translateY(100vh) translateX(0) rotate(0deg) scale(1);
                 opacity: 0;
             }
             10% {
-                opacity: 1;
+                opacity: 0.6;
             }
             90% {
-                opacity: 1;
+                opacity: 0.6;
             }
             100% {
-                transform: translateY(-20vh) translateX(var(--drift)) rotate(360deg);
+                transform: translateY(-20vh) translateX(var(--drift)) rotate(360deg) scale(0.8);
                 opacity: 0;
             }
         }
 
         .card {
             width: 420px;
-            max-width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 28px;
+            max-width: 95vw;
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(30px);
+            border-radius: 32px;
             box-shadow: 
                 0 25px 60px rgba(255, 105, 180, 0.15),
                 0 10px 30px rgba(0, 0, 0, 0.08),
@@ -80,24 +131,43 @@
             padding: 48px 40px;
             position: relative;
             transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border: 1px solid rgba(255, 182, 193, 0.3);
+            border: 1px solid rgba(255, 182, 193, 0.4);
+            will-change: transform;
         }
 
+        /* Animated glow border */
         .card::before {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
             background: linear-gradient(45deg, 
-                rgba(255, 105, 180, 0.3), 
-                rgba(255, 182, 193, 0.3),
-                rgba(255, 105, 180, 0.3));
-            border-radius: 28px;
+                rgba(255, 105, 180, 0.5), 
+                rgba(255, 182, 193, 0.5),
+                rgba(255, 105, 180, 0.5));
+            background-size: 400% 400%;
+            border-radius: 32px;
             z-index: -1;
             opacity: 0;
+            animation: border-glow 3s ease infinite;
             transition: opacity 0.6s;
+        }
+
+        @keyframes border-glow {
+            0% {
+                background-position: 0% 50%;
+                filter: blur(0px);
+            }
+            50% {
+                background-position: 100% 50%;
+                filter: blur(2px);
+            }
+            100% {
+                background-position: 0% 50%;
+                filter: blur(0px);
+            }
         }
 
         .card.opened::before {
@@ -105,10 +175,37 @@
         }
 
         .card.opened {
-            transform: scale(1.03) rotateY(5deg);
+            transform: scale(1.02) rotateY(3deg);
             box-shadow: 
-                0 35px 80px rgba(255, 105, 180, 0.25),
-                0 15px 40px rgba(0, 0, 0, 0.12);
+                0 40px 100px rgba(255, 105, 180, 0.3),
+                0 15px 40px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        }
+
+        /* Ribbon animation */
+        .ribbon {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, rgba(255, 105, 180, 0.8), transparent);
+            border-radius: 2px;
+            animation: slide-ribbon 2s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        @keyframes slide-ribbon {
+            0% {
+                left: -100%;
+            }
+            50% {
+                left: 100%;
+            }
+            100% {
+                left: -100%;
+            }
         }
 
         .card-front {
@@ -117,23 +214,25 @@
 
         .card-front.hide {
             opacity: 0;
-            transform: scale(0.9);
+            transform: scale(0.9) rotateX(90deg);
             pointer-events: none;
             display: none;
         }
 
         .card-front h1 {
-            background: linear-gradient(135deg, #ff1493, #ff69b4, #ff1493);
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(135deg, #ff1493 0%, #ff69b4 50%, #ff1493 100%);
             background-size: 200% 200%;
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 3.2rem;
             font-weight: 700;
-            margin-top: 40px;
-            margin-bottom: 24px;
+            margin-top: 30px;
+            margin-bottom: 16px;
             letter-spacing: -0.5px;
-            animation: shimmer 3s ease-in-out infinite;
+            animation: shimmer 3s ease-in-out infinite, float-text 3s ease-in-out infinite;
+            text-shadow: 0 2px 10px rgba(255, 105, 180, 0.2);
         }
 
         @keyframes shimmer {
@@ -145,12 +244,21 @@
             }
         }
 
+        @keyframes float-text {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
         .decorative-element {
             width: 80px;
             height: 80px;
-            margin: 0 auto 32px;
+            margin: 0 auto 20px;
             position: relative;
-            animation: gentle-pulse 3s ease-in-out infinite;
+            animation: gentle-pulse 2.5s ease-in-out infinite, rotate-element 6s linear infinite;
         }
 
         @keyframes gentle-pulse {
@@ -158,7 +266,19 @@
                 transform: scale(1);
             }
             50% {
-                transform: scale(1.1);
+                transform: scale(1.15);
+            }
+        }
+
+        @keyframes rotate-element {
+            0% {
+                filter: brightness(1);
+            }
+            50% {
+                filter: brightness(1.2);
+            }
+            100% {
+                filter: brightness(1);
             }
         }
 
@@ -170,42 +290,77 @@
             height: 64px;
             background: linear-gradient(135deg, #ff1493 0%, #ff69b4 100%);
             border-radius: 40px 40px 0 0;
+            filter: drop-shadow(0 4px 8px rgba(255, 105, 180, 0.3));
         }
 
         .decorative-element::before {
             left: 40px;
             transform: rotate(-45deg);
             transform-origin: 0 100%;
+            animation: heart-left 0.5s ease infinite alternate;
         }
 
         .decorative-element::after {
             left: 0;
             transform: rotate(45deg);
             transform-origin: 100% 100%;
+            animation: heart-right 0.5s ease infinite alternate;
+        }
+
+        @keyframes heart-left {
+            0% {
+                transform: rotate(-45deg);
+            }
+            100% {
+                transform: rotate(-35deg);
+            }
+        }
+
+        @keyframes heart-right {
+            0% {
+                transform: rotate(45deg);
+            }
+            100% {
+                transform: rotate(35deg);
+            }
         }
 
         .card-front p {
             color: #666;
-            font-size: 1.1rem;
-            margin-bottom: 40px;
+            font-size: 1.05rem;
+            margin-bottom: 32px;
             font-weight: 400;
+            letter-spacing: 0.3px;
+            animation: fade-in-up 0.8s ease-out 0.2s both;
         }
 
         .open-btn {
             background: linear-gradient(135deg, #ff1493, #ff69b4);
+            background-size: 200% 200%;
             color: white;
             border: none;
-            padding: 18px 48px;
+            padding: 16px 44px;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 
                 0 8px 24px rgba(255, 20, 147, 0.3),
                 0 4px 12px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
+            animation: pulse-btn 2s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        @keyframes pulse-btn {
+            0%, 100% {
+                box-shadow: 0 8px 24px rgba(255, 20, 147, 0.3), 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+            50% {
+                box-shadow: 0 12px 32px rgba(255, 20, 147, 0.5), 0 6px 16px rgba(0, 0, 0, 0.15);
+            }
         }
 
         .open-btn::before {
@@ -227,10 +382,11 @@
         }
 
         .open-btn:hover {
-            transform: translateY(-3px);
+            transform: translateY(-4px);
+            background-position: 100% 0;
             box-shadow: 
-                0 12px 32px rgba(255, 20, 147, 0.4),
-                0 6px 16px rgba(0, 0, 0, 0.15);
+                0 14px 40px rgba(255, 20, 147, 0.5),
+                0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         .open-btn:active {
@@ -239,26 +395,53 @@
 
         .card-inside {
             opacity: 0;
-            transform: scale(0.85);
+            transform: scale(0.85) rotateY(-90deg);
             transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: none;
+            transform-origin: center;
         }
 
         .card-inside.show {
             opacity: 1;
-            transform: scale(1);
+            transform: scale(1) rotateY(0deg);
             display: block;
         }
 
         .card-inside h2 {
+            font-family: 'Playfair Display', serif;
             background: linear-gradient(135deg, #ff1493, #ff69b4);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 2.2rem;
-            margin-bottom: 28px;
+            font-size: 2rem;
+            margin-bottom: 24px;
             font-weight: 700;
             animation: fade-in-down 0.8s ease-out 0.3s both;
+            position: relative;
+        }
+
+        .card-inside h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff69b4, transparent);
+            border-radius: 2px;
+            animation: expand-line 0.8s ease-out 0.5s both;
+        }
+
+        @keyframes expand-line {
+            from {
+                width: 0;
+                opacity: 0;
+            }
+            to {
+                width: 60px;
+                opacity: 1;
+            }
         }
 
         @keyframes fade-in-down {
@@ -274,11 +457,39 @@
 
         .message {
             color: #555;
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             line-height: 1.8;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
             font-weight: 400;
             animation: fade-in-up 0.8s ease-out 0.5s both;
+            position: relative;
+            padding: 0 4px;
+        }
+
+        .message::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 105, 180, 0.3), transparent);
+            border-radius: 1px;
+            opacity: 0;
+            animation: underline-animate 1s ease-out 0.7s forwards;
+        }
+
+        @keyframes underline-animate {
+            from {
+                opacity: 0;
+                width: 0;
+                left: 50%;
+            }
+            to {
+                opacity: 1;
+                width: 100%;
+                left: 0;
+            }
         }
 
         @keyframes fade-in-up {
@@ -300,30 +511,54 @@
             height: 100%;
             pointer-events: none;
             overflow: hidden;
-            border-radius: 28px;
+            border-radius: 32px;
         }
 
         .floating-heart {
             position: absolute;
             font-size: 28px;
             opacity: 0;
-            animation: float-up 4s ease-out forwards;
-            filter: drop-shadow(0 2px 4px rgba(255, 105, 180, 0.3));
+            animation: float-up 4.5s ease-out forwards;
+            filter: drop-shadow(0 2px 6px rgba(255, 105, 180, 0.4));
+            will-change: transform;
         }
 
         @keyframes float-up {
             0% {
-                transform: translateY(0) scale(0.5) rotate(0deg);
+                transform: translateY(0) scale(0.3) rotate(0deg);
                 opacity: 0;
             }
             10% {
                 opacity: 1;
             }
-            90% {
-                opacity: 0.8;
+            85% {
+                opacity: 0.9;
             }
             100% {
-                transform: translateY(-600px) scale(1.2) rotate(var(--rotate));
+                transform: translateY(-650px) scale(1.3) rotate(var(--rotate));
+                opacity: 0;
+            }
+        }
+
+        /* Confetti burst */
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 105, 180, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: confetti-fall 2.5s ease-out forwards;
+            will-change: transform;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) rotate(360deg) scale(0);
                 opacity: 0;
             }
         }
@@ -336,6 +571,7 @@
             border-radius: 50%;
             animation: sparkle-anim 2s ease-out forwards;
             pointer-events: none;
+            will-change: transform;
         }
 
         @keyframes sparkle-anim {
@@ -350,13 +586,14 @@
         }
 
         .signature {
-            margin-top: 40px;
-            padding-top: 24px;
-            border-top: 1px solid rgba(255, 105, 180, 0.2);
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255, 105, 180, 0.15);
             color: #888;
             font-size: 0.95rem;
             font-style: italic;
             animation: fade-in 0.8s ease-out 0.7s both;
+            letter-spacing: 0.5px;
         }
 
         @keyframes fade-in {
@@ -368,35 +605,247 @@
             }
         }
 
-        @media (max-width: 480px) {
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            body {
+                overflow-y: auto;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+
+            .card-container {
+                min-height: auto;
+                padding: 16px 0;
+                margin-top: 60px;
+                margin-bottom: 40px;
+            }
+
             .card {
-                width: 90%;
-                min-width: 320px;
-                padding: 36px 28px;
+                width: 90vw;
+                max-width: 420px;
+                padding: 40px 28px;
+                border-radius: 28px;
+                min-height: 560px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
 
             .card-front h1 {
-                font-size: 2.4rem;
+                font-size: 2.6rem;
+                margin-top: 20px;
+                margin-bottom: 12px;
             }
 
             .card-inside h2 {
                 font-size: 1.8rem;
+                margin-bottom: 18px;
             }
 
             .message {
-                font-size: 1rem;
+                font-size: 0.95rem;
+                line-height: 1.7;
+                margin-bottom: 20px;
+            }
+
+            .card-front p {
+                font-size: 0.95rem;
+                margin-bottom: 28px;
+            }
+
+            .open-btn {
+                padding: 14px 36px;
+                font-size: 0.95rem;
+                margin-top: 8px;
+            }
+
+            .decorative-element {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 16px;
+            }
+
+            .floating-heart {
+                font-size: 24px;
+            }
+
+            .signature {
+                font-size: 0.9rem;
+                margin-top: 24px;
+                padding-top: 16px;
+            }
+
+            /* Disable 3D transforms on mobile for better performance */
+            .card.opened {
+                transform: scale(1.01);
+            }
+
+            .card-front.hide {
+                transform: scale(0.9);
+            }
+
+            .card-inside {
+                transform: scale(0.85);
+            }
+
+            .open-btn:hover {
+                transform: translateY(-2px);
+            }
+
+            /* Reduce particle count on mobile */
+            .particle {
+                width: 30px !important;
+                height: 30px !important;
+                opacity: 0.3 !important;
+            }
+
+            /* Disable hover effects on touch devices */
+            @media (hover: none) {
+                .open-btn:hover {
+                    transform: translateY(-1px);
+                    box-shadow: 
+                        0 10px 28px rgba(255, 20, 147, 0.4),
+                        0 5px 14px rgba(0, 0, 0, 0.12);
+                }
+
+                .open-btn {
+                    animation: none;
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: 92vw;
+                padding: 32px 20px;
+                min-height: 500px;
+            }
+
+            .card-front h1 {
+                font-size: 2.1rem;
+                margin-top: 16px;
+                margin-bottom: 8px;
+            }
+
+            .card-inside h2 {
+                font-size: 1.5rem;
+                margin-bottom: 16px;
+            }
+
+            .message {
+                font-size: 0.9rem;
+                line-height: 1.6;
+                margin-bottom: 16px;
+            }
+
+            .card-front p {
+                font-size: 0.9rem;
+                margin-bottom: 24px;
+            }
+
+            .open-btn {
+                padding: 12px 32px;
+                font-size: 0.9rem;
+            }
+
+            .decorative-element {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 12px;
+            }
+
+            .signature {
+                font-size: 0.85rem;
+                margin-top: 20px;
+                padding-top: 12px;
+            }
+
+            .ribbon {
+                height: 2px;
+            }
+        }
+
+        /* Landscape mode */
+        @media (max-height: 700px) and (orientation: landscape) {
+            .card-container {
+                min-height: auto;
+                padding: 10px 0;
+            }
+
+            .card {
+                padding: 28px 24px;
+                min-height: auto;
+            }
+
+            .card-front h1 {
+                font-size: 2rem;
+                margin-bottom: 8px;
+            }
+
+            .decorative-element {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 8px;
+            }
+
+            .card-front p {
+                margin-bottom: 16px;
+                font-size: 0.9rem;
+            }
+
+            .open-btn {
+                padding: 12px 28px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #2a1428 0%, #3d1a47 25%, #2a1433 50%, #3d2840 75%, #2a1530 100%);
+            }
+
+            .card {
+                background: rgba(25, 25, 35, 0.98);
+                color: #e0e0e0;
+                border-color: rgba(255, 105, 180, 0.2);
+            }
+
+            .card-front p,
+            .message {
+                color: #b0b0b0;
+            }
+
+            .signature {
+                color: #888;
+                border-top-color: rgba(255, 105, 180, 0.1);
+            }
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .open-btn {
+                animation: none;
             }
         }
     </style>
 </head>
 <body>
+    <div class="aurora"></div>
     <div class="particles" id="particles"></div>
 
     <div class="card-container">
         <div class="card" id="card">
+            <div class="ribbon"></div>
+            
             <div class="card-front" id="cardFront">
                 <div class="decorative-element"></div>
-                <img src="mom.jpg" alt="Mom" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 24px; display: block; border: 4px solid rgba(255, 105, 180, 0.3); box-shadow: 0 8px 24px rgba(255, 105, 180, 0.2);">
                 <h1>Happy Mother's Day</h1>
                 <p>Click to reveal your heartfelt message</p>
                 <button class="open-btn" id="openBtn">
@@ -424,16 +873,23 @@
     </div>
 
     <script>
+        // Performance optimization
+        const isMobile = () => window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        
+        // Reduce particle count on mobile
+        const particleCount = isMobile() ? 12 : 20;
+        
         // Ambient particles
         const particlesContainer = document.getElementById('particles');
         
         function createAmbientParticles() {
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < particleCount; i++) {
                 setTimeout(() => {
                     const particle = document.createElement('div');
                     particle.className = 'particle';
                     
-                    const size = Math.random() * 60 + 40;
+                    const size = Math.random() * 50 + 30;
                     particle.style.width = size + 'px';
                     particle.style.height = size + 'px';
                     particle.style.left = Math.random() * 100 + '%';
@@ -446,8 +902,10 @@
             }
         }
 
-        createAmbientParticles();
-        setInterval(createAmbientParticles, 25000);
+        if (!isReducedMotion) {
+            createAmbientParticles();
+            setInterval(createAmbientParticles, 30000);
+        }
 
         // Card opening animation
         const openBtn = document.getElementById('openBtn');
@@ -455,23 +913,31 @@
         const cardFront = document.getElementById('cardFront');
         const cardInside = document.getElementById('cardInside');
         const heartsContainer = document.getElementById('heartsContainer');
+        let isOpened = false;
 
         openBtn.addEventListener('click', function() {
+            if (isOpened) return;
+            isOpened = true;
+
             // Create sparkles on button click
-            for (let i = 0; i < 12; i++) {
+            const sparkleCount = isMobile() ? 16 : 20;
+            for (let i = 0; i < sparkleCount; i++) {
                 const sparkle = document.createElement('div');
                 sparkle.className = 'sparkle';
                 sparkle.style.left = '50%';
                 sparkle.style.top = '50%';
                 
-                const angle = (Math.PI * 2 * i) / 12;
-                const distance = 60 + Math.random() * 40;
+                const angle = (Math.PI * 2 * i) / sparkleCount;
+                const distance = 70 + Math.random() * 50;
                 sparkle.style.setProperty('--x', Math.cos(angle) * distance + 'px');
                 sparkle.style.setProperty('--y', Math.sin(angle) * distance + 'px');
                 
                 openBtn.appendChild(sparkle);
                 setTimeout(() => sparkle.remove(), 2000);
             }
+
+            // Create confetti burst
+            createConfettiBurst();
 
             // Card transition
             setTimeout(() => {
@@ -480,13 +946,42 @@
                 
                 setTimeout(() => {
                     cardInside.classList.add('show');
-                    startHeartAnimation();
+                    if (!isReducedMotion) {
+                        startHeartAnimation();
+                    }
                 }, 400);
             }, 300);
         });
 
+        function createConfettiBurst() {
+            const confettiEmojis = ['✨', '💖', '🌹', '💕', '🎀', '💝'];
+            const burstCount = isMobile() ? 20 : 30;
+            
+            for (let i = 0; i < burstCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.textContent = confettiEmojis[Math.floor(Math.random() * confettiEmojis.length)];
+                confetti.style.fontSize = '14px';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '50%';
+                
+                const angle = (Math.PI * 2 * i) / burstCount;
+                const distance = 100 + Math.random() * 150;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance - 100;
+                
+                confetti.style.setProperty('--tx', tx + 'px');
+                confetti.style.setProperty('--ty', ty + 'px');
+                confetti.style.animationDuration = (1.5 + Math.random() * 1) + 's';
+                
+                card.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 2500);
+            }
+        }
+
         function startHeartAnimation() {
-            const hearts = ['❤️', '💕', '💖', '💗', '💝'];
+            const hearts = ['❤️', '💕', '💖', '💗', '💝', '🥰'];
+            let heartInterval;
             
             function createHeart() {
                 const heart = document.createElement('div');
@@ -497,22 +992,31 @@
                 heart.style.bottom = '-50px';
                 heart.style.setProperty('--rotate', (Math.random() - 0.5) * 720 + 'deg');
                 heart.style.animationDelay = Math.random() * 0.5 + 's';
-                heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                heart.style.animationDuration = (Math.random() * 2.5 + 3.5) + 's';
                 
                 heartsContainer.appendChild(heart);
                 
                 setTimeout(() => {
                     heart.remove();
-                }, 5000);
+                }, 5500);
             }
 
             // Initial burst
-            for (let i = 0; i < 8; i++) {
+            const burstCount = isMobile() ? 5 : 8;
+            for (let i = 0; i < burstCount; i++) {
                 setTimeout(() => createHeart(), i * 150);
             }
 
-            // Continuous hearts
-            setInterval(createHeart, 600);
+            // Continuous hearts (slower on mobile)
+            heartInterval = setInterval(createHeart, isMobile() ? 800 : 600);
+            
+            // Stop after 15 seconds to reduce memory usage
+            setTimeout(() => clearInterval(heartInterval), 15000);
+        }
+
+        // Optimize for mobile by reducing animation frame rate if needed
+        if (isMobile()) {
+            document.body.style.willChange = 'auto';
         }
     </script>
 </body>
